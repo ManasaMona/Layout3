@@ -3,11 +3,11 @@ package com.example.manasaa.layout3;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PICK_IMAGE = 2;
     private static final String TAG= MainActivity.class.getSimpleName();
-    private static int belowWebView=0;
+    private static int belowWebView=0,onWebView=0;
 
 
     @Override
@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         mCameraButton=(Button) findViewById(R.id.cameraButton);
         mGalleryImageButton=(Button) findViewById(R.id.galleryImageButton);
         mImageView=(ImageView)findViewById(R.id.imageView);
-
-
 
         mWebPage.setOnClickListener(this);
         mCameraButton.setOnClickListener(this);
@@ -77,16 +75,19 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {//For camera
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageView.setBackgroundColor(Color.TRANSPARENT);
             mImageView.setImageBitmap(imageBitmap);
-            galleryButtonPosition();
+            galleryButtonPosition();     // mGalleryImageButton.setVisibility(View.INVISIBLE);
+
         }
 
         else if(requestCode == PICK_IMAGE && resultCode != RESULT_CANCELED){//for Gallary
             Uri selectedImageUri = data.getData();
             if (null != selectedImageUri) {
                 String path = getPathFromURI(selectedImageUri); // Get the path from the Uri
+                mImageView.setBackgroundColor(Color.TRANSPARENT);//Log.i(TAG, "Image Path : " + path);
                 mImageView.setImageURI(selectedImageUri);// Set the image in ImageView
-                galleryButtonPosition();          // mGalleryImageButton.setVisibility(View.INVISIBLE);
+                galleryButtonPosition();                                       // mGalleryImageButton.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             params.addRule(RelativeLayout.BELOW, R.id.imageView);
             mGalleryImageButton.setLayoutParams(params); //causes layout update
             belowWebView=1;
+
         }
     }
 
