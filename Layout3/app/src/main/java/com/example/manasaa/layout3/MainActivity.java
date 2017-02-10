@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PICK_IMAGE = 2;
     private static final String TAG= MainActivity.class.getSimpleName();
-    private static int belowWebView=0,onWebView=0;
+    private static int belowWebView=0;
 
 
     @Override
